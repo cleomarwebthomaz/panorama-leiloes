@@ -1,0 +1,34 @@
+@!component('admin.components.form.control', { 
+  name: 'name', 
+  value:  role.name,
+  error: getErrorFor('name') || null,
+  autofocus: true,
+  label: 'Regra'
+})
+
+@!component('admin.components.form.control', { 
+  name: 'slug', 
+  value:  role.slug,
+  disabled: role.slug ? true : false,
+  error: getErrorFor('slug') || null,
+  label: 'Slug'
+})
+
+@!component('admin.components.form.textarea', { 
+  name: 'description', 
+  value:  role.description,
+  error: getErrorFor('description') || null,
+  label: 'Descrição',
+  html: false
+})
+
+@each(permission in permissions)
+  @!component('admin.components.form.checkbox', { 
+    name:  'permissions[]', 
+    value:  permission.id,
+    error:  getErrorFor('permissions') || null,
+    label:  permission.name,
+    id:     permission.id,
+    values: rolesSelecteds
+  })
+@endeach

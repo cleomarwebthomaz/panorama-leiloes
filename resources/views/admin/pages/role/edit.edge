@@ -1,0 +1,38 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Editar Regra: {{ role.name }}
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Regras de Acesso', route('admin.role.index')) }}
+  {{ addCrumb('Editar') }}
+@endsection
+
+@endsection
+
+@section('content')
+
+<!-- general form elements -->
+<div class="card card-outline card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Regras de Acesso</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form role="form" action="{{ route('admin.role.update', { id: role.id }) }}?_method=PATCH" method="POST">
+      {{ csrfField() }}
+
+      <div class="card-body">
+          @include('admin.pages.role._partials.form')
+      </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Salvar</button>
+      </div>
+    </form>
+  </div>
+  <!-- /.card -->
+
+@endsection

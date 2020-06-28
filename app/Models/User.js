@@ -9,10 +9,14 @@ const Model = use('Model')
 const AdminUserFilter = use('App/ModelFilters/Admin/UserFilter')
 
 class User extends Model {
-  static boot () {
+
+  static sortable() {
+    return ['id', 'name', 'active', 'created_at', 'updated_at']
+  }
+
+  static boot() {
     super.boot()
 
-    this.addTrait('Paging')
     this.addTrait('@provider:Filterable', AdminUserFilter)
 
     /**
@@ -24,18 +28,20 @@ class User extends Model {
         userInstance.password = await Hash.make(userInstance.password)
       }
     })
-
   }
 
-  static get hidden() {
-    return ['password']
-  }
-
-  static get traits () {
+  static get traits() {
     return [
       '@provider:Adonis/Acl/HasRole',
-      '@provider:Adonis/Acl/HasPermission'
+      '@provider:Adonis/Acl/HasPermission',
+      'Sortable'
     ]
+  }
+
+  static scopeGroup(query, group) {
+    return query.whereHas('roles', (builder) => {
+      builder.where('slug', group)
+    }, '>', 0)
   }
 
   /**
@@ -48,20 +54,42 @@ class User extends Model {
    *
    * @return {Object}
    */
-  tokens () {
+  tokens() {
     return this.hasMany('App/Models/Token')
   }
 
-  contacts() {
-    return this.hasMany('App/Models/UserContact')
+  userState() {
+    return this.belongsTo('App/Models/UserState')
   }
 
-  addresses() {
-    return this.hasMany('App/Models/UserAddress')
+  city() {
+    return this.belongsTo('App/Models/City')
   }
 
   state() {
-    return this.belongsTo('App/Models/UserState')
+    return this.belongsTo('App/Models/State')
+  }
+
+  roles() {
+    return this.hasMany('App/Models/Role')
+  }
+
+  address() {
+    return this.hasOne('App/Models/UserAddress')
+  }
+
+  cities() {
+    return this.belongsToMany('App/Models/City')
+  }
+
+  static get dates() {
+    return super.dates.concat(['updated_at', 'created_at'])
+  }
+
+  static castDates(field, value) {
+    if (field === 'updated_at' || field === 'created_at') {
+      return value.format('DD/MM/YYYY h:m:s')
+    }
   }
 }
 

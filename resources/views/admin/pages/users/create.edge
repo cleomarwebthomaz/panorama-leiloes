@@ -1,0 +1,38 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Cadastrar Usuário
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Usuários', route('users.index')) }}
+  {{ addCrumb('Adicionar') }}
+@endsection
+  
+@endsection
+
+@section('content')
+
+<!-- general form elements -->
+<div class="card card-outline card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Usuários</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form role="form" action="{{ route('admin.user.store') }}" method="POST">
+      {{ csrfField() }}
+
+      <div class="card-body">
+          @include('admin.pages.users._partials.form')
+      </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Adicionar</button>
+      </div>
+    </form>
+  </div>
+  <!-- /.card -->
+
+@endsection

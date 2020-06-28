@@ -12,8 +12,13 @@ class AdminUserFilter extends ModelFilter {
     return this.where('email', 'LIKE', `%${value}%`)
   }
 
-  search(value) {
-    return this.where('name', 'LIKE', `%${value}%`)
+  search(search) {
+    this.where(function () {
+      this.where('id', 'LIKE', `%${search}%`)
+        .orWhere('name', 'LIKE', `%${search}%`)
+        .orWhere('lastname', 'LIKE', `%${search}%`)
+        .orWhere('email', 'LIKE', `%${search}%`)
+    })
   }
 
   userState(user_state_id) {

@@ -1,0 +1,11 @@
+<label
+  for="{{ name }}"
+  @if(id)
+    id="{{ id }}"
+  @endif
+>
+    <span>{{ el(label) }}</span>
+    @if(required)
+      <font color="red">*</font>
+    @endif
+</label>

@@ -1,14 +1,16 @@
 'use strict'
 
 class Paging {
-  register (Model) {
+  register(Model) {
 
     Model.queryMacro('paging', function (params) {
-      let { order, sort = 'id', limit = 20, page = 1 } = params;
+      let { direction, sort = 'id', limit = 20, page = 1 } = params;
 
-      if (order && sort) {
-        this.orderBy(sort, order)
+      if (!direction) {
+        direction = 'desc'
       }
+
+      this.orderBy(sort, direction)
 
       page = page > 0 ? parseInt(page) : 1
       limit = limit ? parseInt(limit) : 20

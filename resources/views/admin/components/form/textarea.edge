@@ -1,0 +1,24 @@
+<div class="form-group">
+	@if(label)
+	  @!component('admin.components.form.label', name=name, label=label, required=required)
+	@endif
+	<textarea
+		class="form-control {{ error ? 'is-invalid' : 'valid' }} {{ html ? 'texteditor' : '' }}"
+		name="{{ name }}"
+		@if(id)
+		    id="{{ id }}"
+		@endif
+		@if(placeholder)
+		    placeholder="{{ placeholder }}"
+		@endif
+		@if(autofocus)
+		  autofocus="autofocus"
+		@endif
+		@if(required)
+		  required="required"
+		@endif
+	>{{ value }}</textarea>
+	<span class="help-block text-danger">
+	    {{ error }}
+	</span>	
+</div>

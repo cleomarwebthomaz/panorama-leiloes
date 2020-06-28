@@ -15,4 +15,17 @@
 
 const Ws = use('Ws')
 
+Ws.channel('auction', 'AuctionController')
 Ws.channel('auctionbid', 'AuctionBindController')
+Ws.channel('user', 'UserController')
+// .middleware(['auth'])
+
+// Ws.channel('auction', ({ socket }) => {
+//   console.log('a new subscription for news topic')
+
+//   socket.on('status', (data) => {
+//     // console.log(data)
+//     socket.broadcastToAll('status', data)
+//   })
+
+// })

@@ -1,0 +1,40 @@
+<!-- Sidebar Menu -->
+<nav class="mt-2">
+  <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+    @each(menu in getMenus(request))
+      <li class="nav-item {{ menu.submenu ? 'has-treeview' : '' }}">
+        <a href="{{ menu.link }}" class="nav-link {{ isActive(menu, request) ? 'active' : '' }}">
+          @if(menu.icon)
+            <i class="nav-icon {{ menu.icon }}"></i>
+          @else
+            <i class="far fa-circle nav-icon"></i>
+          @endif
+          <p>
+            {{ menu.name }}
+            @if(menu.submenu)
+              <i class="fas fa-angle-left right"></i>
+            @endif
+          </p>
+        </a>
+
+        @if(menu.submenu)
+          <ul class="nav nav-treeview">
+            @each(submenu in menu.submenu)
+              <li class="nav-item">
+                <a href="{{ submenu.link }}" class="nav-link {{ isActive(menu, request) ? 'active' : '' }}">
+                @if(submenu.icon)
+                  <i class="nav-icon {{ submenu.icon }}"></i>
+                @else
+                  <i class="far fa-circle nav-icon"></i>
+                @endif
+                  <p>{{ submenu.name }}</p>
+                </a>
+              </li>
+            @endeach
+          </ul>
+        @endif
+      </li>
+    @endeach
+</nav>
+<!-- /.sidebar-menu -->

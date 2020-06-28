@@ -1,0 +1,37 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Editar Cidade: <small>{{ city.name }}</small>
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Cidades', route('categories.index')) }}
+  {{ addCrumb('Editar') }}
+@endsection
+
+@section('content')
+
+@if(flashMessage('success'))
+  <div class="alert alert-success">{{ flashMessage('success') }}</div>
+@endif
+
+<div class="card card-outline card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Cidades</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form role="form" action="{{ route('admin.city.update', {id: city.id}) }}?_method=PATCH" method="POST">
+      {{ csrfField() }}
+
+      <div class="card-body pad">
+          @include('admin.pages.city._partials.form')
+      </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Atualizar</button>
+      </div>
+    </form>
+  </div>
+@endsection

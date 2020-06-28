@@ -1,0 +1,33 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Enviar Notificações Push
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Páginas', route('admin.push.index')) }}
+  {{ addCrumb('Adicionar') }}
+@endsection
+
+@section('content')
+<div class="card card-outline card-primary">
+  <div class="card-header">
+    <h3 class="card-title">Enviar Notificações Push</h3>
+  </div>
+  <!-- /.card-header -->
+
+  <!-- form start -->
+  <form role="form" action="{{ route('admin.push.store') }}" method="POST" enctype="multipart/form-data">
+    {{ csrfField() }}
+
+    <div class="card-body">
+        @include('admin.pages.push._partials.form')
+    </div>
+    <!-- /.card-body -->
+
+    <div class="card-footer">
+      <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Salvar</button>
+    </div>
+  </form>
+</div>
+@endsection

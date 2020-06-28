@@ -1,0 +1,36 @@
+<div class="form-group">
+	@if(label)
+	  @!component('admin.components.form.label', name=name, label=label, required=required)
+	@endif
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">
+          <i class="far fa-calendar-alt"></i>
+        </span>
+      </div>
+      <input
+		class="form-control float-right data-picker-single {{ error ? 'is-invalid' : 'valid' }}"
+		name="{{ name }}"
+		type="{{ type ? type : 'text' }}"
+		@if(id)
+		    id="{{ id }}"
+		@endif
+		@if(placeholder)
+		    placeholder="{{ placeholder }}"
+		@endif
+		@if(value)
+		    value="{{ value }}"
+		@endif
+		@if(autofocus)
+		  autofocus="autofocus"
+		@endif
+		@if(required)
+		  required="required"
+		@endif
+	/>
+    </div>
+
+    <span class="help-block text-danger">
+	    {{ error }}
+	</span>
+  </div>

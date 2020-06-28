@@ -8,8 +8,11 @@ class TeamFilter extends ModelFilter {
     return this.where('id', Number(id))
   }
 
-  search(value) {
-    this.where('name', 'LIKE', `%${value}%`)
+  search(search) {
+    this.where(function () {
+      this.where('id', 'LIKE', `%${search}%`)
+        .orWhere('name', 'LIKE', `%${search}%`)
+    })
   }
   
 }

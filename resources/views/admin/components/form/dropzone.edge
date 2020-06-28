@@ -1,0 +1,12 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+<form action="{{ url }}" class="dropzone">
+  @!yield($slot.body)
+</form>
+
+<script>
+    $('.dropzone').dropzone({
+        paramName: "{{ paramName || 'image' }}"
+    });
+</script>

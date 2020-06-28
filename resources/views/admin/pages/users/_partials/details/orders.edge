@@ -1,0 +1,26 @@
+<table class="table">
+    <thead>
+        <tr>
+            <td>Pedido</td>
+            <td>Tipo</td>
+            <td>Produtos</td>
+            <td>Total</td>
+            <td></td>
+        </tr>
+    </thead>
+    <body>
+        @each(order in user.orders)
+            <tr>
+                <td>{{ order.reference }}</td>
+                <td>{{ order.cart.type === 'sale' ? 'Venda' : 'Voucher' }}</td>
+                <td>{{ order.cart.total_products }}</td>
+                <td>{{ currency(order.cart.total) }}</td>
+                <td>
+                    <a href="{{ route('admin.order.show', { id: order.id }) }}" class="btn btn-sm btn-default">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                </td>
+            </tr>
+        @endeach
+    </body>
+</table>

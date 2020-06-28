@@ -1,0 +1,17 @@
+<div class="form-group">
+   @if(label)
+	  @!component('admin.components.form.label', name=name, label=label, required=required, id=labelId)
+   @endif
+
+   @include('admin.components.form.input')
+
+    @if(hint)
+		<span class="help-block text-hint">
+			{{ hint }}
+		</span>
+	@endif
+
+	<span class="help-block text-danger">
+			{{ error }}
+	</span>	
+</div>

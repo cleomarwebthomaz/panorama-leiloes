@@ -1,0 +1,26 @@
+<input
+  class="form-control {{ className }} {{ error ? 'is-invalid' : 'valid' }}"
+  name="{{ name }}"
+  type="{{ type ? type : 'text' }}"
+  @if(id)
+      id="{{ id }}"
+  @endif
+  @if(placeholder)
+      placeholder="{{ placeholder }}"
+  @endif
+  @if(value)
+      value="{{ value }}"
+  @endif
+  @if(disabled)
+    disabled="{{ disabled }}"
+  @endif
+  @if(autofocus)
+    autofocus="autofocus"
+  @endif
+  @if(required)
+    required="required"
+  @endif
+  @if(mask)
+    data-usemask="{{ mask }}"
+  @endif
+/>

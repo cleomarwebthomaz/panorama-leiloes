@@ -1,0 +1,111 @@
+<a class="btn btn-sm btn-default d-nones"
+href="{{ route('admin.auction.makeFinish', { id: auction.id }) }}" 
+onclick="if (!confirm('Deseja encerrar o leilão?')) return false;"
+>
+Encerrar
+</a>
+
+<a class="btn btn-sm btn-default d-nones"
+href="{{ route('admin.auction.makeOnline', { id: auction.id }) }}" 
+onclick="if (!confirm('Deseja manter o leilão ao vivo?')) return false;"
+>
+  Por ao Vivo
+</a>
+
+<div class="row" id="auction-online">
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-{{ auction.opened ? 'success' : 'danger' }}"><i class="far fa-circle"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">
+          @if(auction.opened)
+            Ao Vivo
+          @elseif(auction.closed_date)
+            Encerrado
+          @else
+            Offline
+          @endif
+        </span>
+        <span class="info-box-number"></span>
+
+        @if(auction.opened)
+          <a class="btn btn-sm btn-danger"
+            href="{{ route('admin.auction.makeFinish', { id: auction.id }) }}" 
+            onclick="if (!confirm('Deseja encerrar o leilão?')) return false;"
+          >
+            Encerrar
+          </a>
+        @elseif(!auction.closed_date)
+          <a class="btn btn-sm btn-default"
+          href="{{ route('admin.auction.makeOnline', { id: auction.id }) }}" 
+          onclick="if (!confirm('Deseja manter o leilão ao vivo?')) return false;"
+          >
+            Por ao Vivo
+          </a>
+        @else 
+          {{ auction.closed_date }}
+        @endif
+
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-warning"><i class="fas fa-dollar-sign"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Lance Inicial</span>
+        <span class="info-box-number">{{ currency(auction.bid_initial) }}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-danger"><i class="fas fa-dollar-sign"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Valor Total</span>
+        <span class="info-box-number" id="total-value">{{ currency(auction.total_bid) }}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+  <div class="col-md-3 col-sm-6 col-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-danger"><i class="fas fa-list"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Lances ao vivo</span>
+        <span class="info-box-number" id="total-bids">{{ auction.__meta__.bids_count }}</span>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+  </div>
+  <!-- /.col -->
+
+  @if(winner)
+  <div class="col-md-12 col-sm-6 col-12">
+    <div class="info-box">
+      <div class="info-box-content">
+        <h5 class="info-box-text">Vencedor</h5>
+        <span class="info-box-number">
+          {{ winner.user.name }} {{ winner.user.lastname }} <br />
+          Cidade: {{ winner.user.city.name }} {{ winner.user.city.state.uf }} <br />
+          {{ winner.user.email }} <br />
+          {{ winner.user.phone }}
+        </span>
+      </div>
+    </div>
+  </div>
+  @endif  
+</div>

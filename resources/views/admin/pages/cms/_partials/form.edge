@@ -1,0 +1,26 @@
+@!component('admin.components.form.control', {
+  name: 'title',
+  label: 'Título',
+  value: page.title,
+  error: getErrorFor('title') || null,
+  autofocus: true,
+  required: true,
+})
+
+@!component('admin.components.form.textarea', {
+  name: 'content',
+  label: 'Conteúdo',
+  value:  page.content,
+  error: getErrorFor('content') || null,
+  html: true,
+  required: true,
+})
+
+@!component('admin.components.form.checkbox', {
+  name: 'active',
+  id: 'active',
+  label: 'Manter Ativo',
+  checked:  page.active ? true : false,
+  error: getErrorFor('active') || null,
+  value: 1
+})

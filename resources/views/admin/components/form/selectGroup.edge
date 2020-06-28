@@ -1,0 +1,55 @@
+<div class="input-group{{ divClass }}">
+    @if(label)
+      @!component('admin.components.form.label', name=name, label=label, required=required)
+    @endif
+
+    <div class="input-group mb-3">
+      @if(icon)
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <span class="fas fa-{{ icon }}"></span>
+          </div>
+        </div>
+      @endif
+
+
+      <select
+      name="{{ name }}"
+      class="select2 {{ className }}"
+      @if(multiple)
+        multiple="multiple"
+      @endif
+      @if(onChange)
+        onChange="{{ onChange }}"
+      @endif
+      @if(disabled)
+        disabled="{{ disabled }}"
+      @endif
+      @if(required)
+        required="required"
+      @endif
+      @if(id)
+        id="{{ id }}"
+      @endif
+      @if(target)
+        data-target="{{ target }}"
+      @endif
+      data-placeholder="{{ placeholder }}"
+      style="width: 100%;"
+    >
+      @!yield($slot.options)
+  </select>
+
+      @if(!icon && iconRight)
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-{{ iconRight }}"></span>
+              </div>
+            </div>
+      @endif
+
+      <span class="w-100 text-danger">
+        {{ error }}
+      </span>
+    </div>
+  </div>

@@ -1,0 +1,100 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Regras
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Regras') }}
+@endsection
+
+@section('content')
+
+@if(flashMessage('success'))
+  <div class="alert alert-success">{{ flashMessage('success') }}</div>
+@endif
+
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Lista de Regras ({{ roles.total }})</h3>
+          <div class="card-tools">
+            @include('admin.pages.role._partials.filter')
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>{{ sortablelink('id', 'Id', request) }}</th>
+                <th>{{ sortablelink('name', 'Nome', request) }}</th>
+                <th>{{ sortablelink('slug', 'Slug', request) }}</th>
+                <th>{{ sortablelink('created_at', 'Adicionado', request) }}</th>
+                <th>{{ sortablelink('updated_at', 'Atualizado', request) }}</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              @each(role in roles.data)
+              <tr>
+                  <td>{{ role.id }}</td>
+                  <td>{{ role.name }}</td>
+                  <td>{{ role.slug }}</td>
+                  <td>{{ role.created_at }}</td>
+                  <td>{{ role.updated_at }}</td>
+                  <td>
+                    @is('admin')
+                      <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#role-permission-{{ role.id }}">
+                          <i class="fa fa-lock"></i>
+                      </button>
+                      <a href="{{ route('admin.role.edit', {id: role.id}) }}" class="btn btn-sm btn-default">
+                          <i class="fa fa-edit"></i>
+                      </a>
+
+                       {{--  @!component('admin.components.postLink', id=role.id, csrfFields = csrfField(), url=route('admin.role.destroy', { id: role.id }))  --}}
+                    @endis
+                  </td>
+              </tr>
+              @endeach
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+  <!-- /.row -->
+
+  @each(role in roles.data)
+    @component('admin.components.bootstrap.modal', id='role-permission-' + role.id, title=role.name, close=true )
+      @slot('body')
+        <table class="table">
+          <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Slug</th>
+              </tr>
+          </thead>
+          <tbody>
+            @each(permission in role.permissions)
+              <tr>
+                <td>{{ permission.id }}</td>
+                <td>{{ permission.name }}</td>
+                <td>{{ permission.slug }}</td>
+              </tr>
+            @endeach
+          </tbody>
+        </table>
+      @endslot
+      @slot('footer')
+        <a href="{{ route('admin.permissions.index') }}" class="btn btn-primary">Editar Permissões</a>
+      @endslot
+    @endcomponent
+  @endeach
+
+  @!component('admin.components.pagination', pagination = roles, request = request, presenter = 'PaginationPresenter')
+@endsection

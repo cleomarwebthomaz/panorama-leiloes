@@ -8,8 +8,12 @@ class AdminStateFilter extends ModelFilter {
     return this.where('id', Number(id))
   }
 
-  search(value) {
-    this.where('name', 'LIKE', `%${value}%`)
+  search(search) {
+    this.where(function () {
+      this.where('states.id', 'LIKE', `%${search}%`)
+        .orWhere('states.name', 'LIKE', `%${search}%`)
+        .orWhere('states.uf', 'LIKE', `%${search}%`)
+    })
   }
 
 }

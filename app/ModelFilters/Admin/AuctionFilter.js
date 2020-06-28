@@ -8,8 +8,11 @@ class AdminAuctionFilter extends ModelFilter {
     return this.where('id', Number(id))
   }
 
-  search(value) {
-    this.where('title', 'LIKE', `%${value}%`)
+  search(search) {
+    this.where(function () {
+      this.where('auctions.id', 'LIKE', `%${search}%`)
+        .orWhere('auctions.title', 'LIKE', `%${search}%`)
+    })
   }
 
 }

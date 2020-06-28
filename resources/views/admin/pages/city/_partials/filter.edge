@@ -1,0 +1,31 @@
+<form method="get" class="form-inline">
+
+  @component('admin.components.form.select', {
+    name: 'state_id',
+    error: getErrorFor('state_id') || null,
+    addStyle: "min-width: 100px"
+  })
+    @slot('options')
+      <option></option>
+      @each((id, state) in states)
+          <option
+            @if(request.input('state_id') == id)
+              selected="selected"
+            @endif
+            value="{{ id }}">{{ state }}</option>
+      @endeach
+    @endslot
+  @endcomponent
+
+  <div class="input-group input-group ml-2" style="width: 150px;">
+    <input type="search" name="search" class="form-control" placeholder="Buscar"
+      @if(request.input('search'))
+        value="{{ request.input('search') }}"
+      @endif
+    >
+    <div class="input-group-append">
+        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+    </div>
+  </div>
+  
+</form>

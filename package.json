@@ -34,7 +34,14 @@
     "adonis-acl": "^1.1.1",
     "adonis-lucid-filter": "^1.0.5",
     "delay": "^4.3.0",
-    "mysql": "^2.18.1"
+    "googleapis": "^39.2.0",
+    "install": "^0.13.0",
+    "mysql": "^2.18.1",
+    "onesignal-node": "^3.0.2",
+    "pusher": "^3.0.1",
+    "rimraf": "^3.0.2",
+    "sharp": "^0.25.4",
+    "uniqid": "^5.2.0"
   },
   "devDependencies": {},
   "autoload": {

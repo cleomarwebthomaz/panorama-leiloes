@@ -1,0 +1,20 @@
+<form 
+    action="{{ url }}?_method={{ type || 'DELETE' }}" 
+    method="POST" class="d-none" id="button-{{  id }}">
+    {{ csrfFields }}
+</form>
+
+@if(!notConfirm)
+    <a class="btn btn-sm btn-{{ color || 'default' }}" href="#" onclick="
+        if(confirm('Remover esse registro')) {
+            $('#button-{{ id }}').submit()
+        } return false
+        ">
+    <i class="fa fa-{{ icon || 'times' }}"></i>
+    </a>
+@else 
+    <a class="btn btn-sm btn-{{ color || 'default' }}" href="#" onclick="$('#button-{{ id }}').submit();">
+        <i class="fa fa-{{ icon || 'times' }}"></i>
+    </a>
+@endif
+

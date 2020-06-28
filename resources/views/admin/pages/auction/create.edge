@@ -1,0 +1,35 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Adicionar Leilão
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Leilãos', route('admin.auction.index')) }}
+  {{ addCrumb('Adicionar') }}
+@endsection
+
+@section('content')
+<div class="card card-outline card-primary">
+  <div class="card-header">
+    <h3 class="card-title">Leilãos</h3>
+  </div>
+  <!-- /.card-header -->
+
+  <!-- form start -->
+  <form role="form" action="{{ route('admin.auction.store') }}" method="POST"
+    enctype="multipart/form-data"
+  >
+    {{ csrfField() }}
+
+    <div class="card-body">
+        @include('admin.pages.auction._partials.form')
+    </div>
+    <!-- /.card-body -->
+
+    <div class="card-footer">
+      <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Adicionar</button>
+    </div>
+  </form>
+</div>
+@endsection

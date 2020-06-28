@@ -1,0 +1,36 @@
+<div class="form-group">
+    @if(label)
+        @!component('admin.components.form.label', name=name, label=label, required=required)
+    @endif
+    <input
+        class="form-control {{ error ? 'is-invalid' : 'valid' }}"
+        name="{{ name }}"
+        type="file""
+        @if(id)
+            id="{{ id }}"
+        @endif
+        @if(placeholder)
+            placeholder="{{ placeholder }}"
+        @endif
+        @if(value)
+            value="{{ value }}"
+        @endif
+        @if(autofocus)
+            autofocus="autofocus"
+        @endif
+        @if(required)
+            required="required"
+        @endif
+    >
+    <span class="help-block text-danger">
+        {{ error }}
+    </span>	
+</div>
+
+@if(url)
+    <div class="card w-25">
+        <div class="card-content">
+            <img src="{{ url }}" alt="" class="w-100">
+        </div>
+    </div>
+@endif

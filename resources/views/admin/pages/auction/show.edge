@@ -1,0 +1,83 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  {{ auction.title }}
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Online', route('admin.auction.online')) }}
+@endsection
+
+@section('content')
+<div id="auction-mode-{{ auction.opened ? 'online' : 'offline' }}">
+  @include('admin.pages.auction._partials.top-show')
+
+  <div class="card card-primary card-outline">
+    <div class="card-header">
+      <h3 class="card-title">
+        <i class="fas fa-circle-o"></i>
+        @if(!auction.winner_id)
+          Agendado para dia {{ auction.date_formated }}
+        @else 
+          Relatório
+        @endif
+      </h3>
+    </div>
+
+    <div class="card-body pt-3">
+      <div class="row">
+        <div class="col-sm-4">
+          <img src="{{ thumb('auction', auction.image, 618, 450) }}" alt="" class="img-fluid">
+        </div>
+        <div class="col-sm-8">
+            <table class="table">
+              <tr>
+              <td><strong>id:</strong> {{ auction.id }}</td>
+              </tr>
+              <tr>
+              <td><strong>Valor Inicial:</strong> {{ currency(auction.bid_initial) }}</td>
+              </tr>
+              <tr>
+              <tr>
+              <td><strong>Conteúdo:</strong> {{ auction.content }}</td>
+              </tr>
+            </table>
+            @if(!auction.closed_date)
+            <a href="{{ route('admin.auction.edit', {id: auction.id}) }}" class="btn btn-sm btn-default">
+              <i class="fa fa-edit"></i> Editar
+            </a>
+            @endif
+        </div>
+      </div>
+    </div>
+
+    @if(auction.__meta__.bids_count > 0)
+    <div class="card-body pt-3">
+      <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="raking-tab" data-toggle="pill" href="#raking" role="tab">
+            Melhores Lances
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="online-tab" data-toggle="pill" href="#online" role="tab">
+            Todos os Lances
+          </a>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="custom-content-below-tabContent">
+        <div class="tab-pane fade show active" id="raking" role="tabpanel">
+            @include('admin.pages.auction._partials.online.rank')
+        </div>
+        <div class="tab-pane fade" id="online" role="tabpanel">
+            @include('admin.pages.auction._partials.online.online')
+        </div>
+      </div>
+    </div>
+    @endif
+
+    <!-- /.card -->
+  </div.row>
+</div>
+@endsection

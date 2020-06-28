@@ -1,0 +1,26 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Produto</th>
+            <th>Anunciante</th>
+            <th>Status</th>
+            <th>Data</th>
+        </tr>                
+    </thead>
+    <tbody>
+        @each(voucher in user.vouchers)
+            <tr>
+                <td>
+                    {{ voucher.product.name }}
+                    {{--  <stars rating="{{ voucher.vote_product }}" />  --}}
+                </td>
+                <td>
+                    {{ voucher.product.company.name }}
+                    {{--  <stars rating="{{ voucher.vote_company }}" />  --}}
+                </td>
+                <td>{{ voucher.used ? 'Utilizado' : 'Aguardando' }}</td>
+                <td>{{ voucher.created_at }}</td>
+            </tr>
+        @endeach                
+    </tbody>
+</table>

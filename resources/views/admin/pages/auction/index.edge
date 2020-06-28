@@ -1,0 +1,74 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Leilões
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Leilões') }}
+@endsection
+
+@section('toolbar')
+  <a href="{{ route('admin.auction.create') }}" class="btn btn-primary">
+      <i class="fa fa-plus"></i> Novo
+  </a>
+@endsection
+
+@section('content')
+
+@if(flashMessage('success'))
+  <div class="alert alert-success">{{ flashMessage('success') }}</div>
+@endif
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Leilões ({{ auctions.total }})</h3>
+
+    <div class="card-tools">
+      @include('admin.pages.auction._partials.filter')
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>{{ sortablelink('id', 'Id', request) }}</th>
+          <th>{{ sortablelink('title', 'Título', request) }}</th>
+          <th>{{ sortablelink('active', 'Ativo', request) }}</th>
+          <th>{{ sortablelink('date', 'Data', request) }}</th>
+          <th>{{ sortablelink('date', 'Encerramento', request) }}</th>
+          {{--  <th>{{ sortablelink('created_at', 'Adicionado', request) }}</th>  --}}
+          {{--  <th>{{ sortablelink('updated_at', 'Atualizado', request) }}</th>  --}}
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @each(auction in auctions.data)
+        <tr>
+            <td>{{ auction.id }}</td>
+            <td>{{ auction.title }}</td>
+            <td>{{ active(auction.active) }}</td>
+            <td>{{ auction.date_formated }}</td>
+            <td>{{ auction.closed_date_formated || '--' }}</td>
+            {{--  <td>{{ auction.updated_at }}</td>  --}}
+            <td>
+              <a href="{{ route('admin.auction.show', { id: auction.id }) }}" class="btn btn-sm btn-default">
+                <i class="fa fa-eye"></i> Detalhes
+              </a>
+              <a href="{{ route('admin.auction.edit', {id: auction.id}) }}" class="btn btn-sm btn-default">
+                  <i class="fa fa-edit"></i>
+              </a>
+              @!component('admin.components.postLink', id=auction.id, csrfFields = csrfField(), url=route('admin.auction.destroy', { id: auction.id }))
+            </td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
+  </div>
+  <!-- /.card-body -->
+</div>
+
+@!component('admin.components.pagination', pagination = auctions, request = request, presenter = 'PaginationPresenter')
+
+@endsection

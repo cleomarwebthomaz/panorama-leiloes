@@ -1,0 +1,68 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Tipod e Contato
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Tipod e Contato') }}
+@endsection
+
+@section('toolbar')
+    <a href="{{ route('admin.contact-type.create') }}" class="btn btn-primary">
+        <i class="fa fa-plus"></i> Novo
+    </a>
+@endsection
+
+@section('content')
+
+@if(flashMessage('success'))
+  <div class="alert alert-success">{{ flashMessage('success') }}</div>
+@endif
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Tipod e Contato ({{ contactTypes.total }})</h3>
+
+    <div class="card-tools">
+      @include('admin.pages.contact-type._partials.filter')
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>{{ sortablelink('id', 'Id', request) }}</th>
+          <th>{{ sortablelink('name', 'Nome', request) }}</th>
+          {{--  <th>{{ sortablelink('active', 'Ativo', request) }}</th>  --}}
+          {{--  <th>{{ sortablelink('created_at', 'Adicionado', request) }}</th>  --}}
+          {{--  <th>{{ sortablelink('updated_at', 'Atualizado', request) }}</th>  --}}
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @each(contactType in contactTypes.data)
+        <tr>
+            <td>{{ contactType.id }}</td>
+            <td>{{ contactType.name }}</td>
+            {{--  <td>{{ active(contactType.active) }}</td>  --}}
+            {{--  <td>{{ contactType.created_at }}</td>  --}}
+            {{--  <td>{{ contactType.updated_at }}</td>  --}}
+            <td>
+              <a href="{{ route('admin.contactType.edit', {id: contactType.id}) }}" class="btn btn-sm btn-default">
+                  <i class="fa fa-edit"></i>
+              </a>
+              @!component('admin.components.postLink', id=contactType.id, csrfFields = csrfField(), url=route('admin.contact-type.destroy', { id: contactType.id }))
+            </td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
+  </div>
+  <!-- /.card-body -->
+</div>
+
+@!component('admin.components.pagination', pagination = contactTypes, request = request, presenter = 'PaginationPresenter')
+
+@endsection

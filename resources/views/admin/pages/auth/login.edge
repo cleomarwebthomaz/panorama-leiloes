@@ -1,0 +1,57 @@
+@layout('admin.layouts.auth')
+
+@section('content')
+<!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Entre para iniciar sua sessão</p>
+
+      @if(flashMessage('error'))
+        <div class="alert alert-danger">{{ flashMessage('error') }}</div>
+      @endif
+      
+      <form action="{{ route('admin.login.store') }}" method="post">
+      	{{ csrfField() }}
+
+        @!component('admin.components.form.inputGroup', {
+          name: 'email',
+          type: 'email',
+          placeholder: 'E-mail',
+          value: old('email'),
+          error: getErrorFor('email') || null,
+          autofocus: true,
+          divClass: 'mb-3'
+        })
+
+        @!component('admin.components.form.inputGroup', {
+          name: 'password',
+          type: 'password',
+          placeholder: 'Senha',
+          value: old('password'),
+          error: getErrorFor('password') || null,
+          divClass: 'mb-3'
+        })
+
+        <div class="row">
+          <div class="col-sm-8">
+            @!component('admin.components.form.checkbox', {
+              name: 'remember',
+              error: getErrorFor('checkbox') || null,
+              label: 'Lembre de mim'
+            })
+          </div>
+              <div class="col-4">
+                  <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+              </div>
+        </div>
+      </form>
+
+      <p class="mb-1">
+        <a href="#">Esqueci a minha senha</a>
+      </p>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+@endsection

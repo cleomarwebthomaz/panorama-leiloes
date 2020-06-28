@@ -7,7 +7,9 @@ class LoginController {
   async store({ auth, response, request }) {
     try {
       const { email, password } = request.all()
-      const userAuth = await auth.attempt(email, password)
+      const userAuth = await auth
+                              .authenticator('jwt')
+                              .attempt(email, password)
   
       const user = await User.findBy('email', email)
 

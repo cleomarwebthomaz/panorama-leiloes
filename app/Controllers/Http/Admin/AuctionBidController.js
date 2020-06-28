@@ -1,52 +1,54 @@
 'use strict'
 
-const Ws = use('Ws')
+// const Ws = use('Ws')
 
 const AuctionBid = use('App/Models/AuctionBid')
 
 class AuctionBidController {
 
-		async index({ response, params, request }) {
-				const auctionBid = await AuctionBid
-																		.query()
-																		.where('auction_id', params.auction_id)
-																		.with('auction')
-																		.with('user')
-																		.paging(request.all())
+	async index({ view, params, request }) {
+		const bids = await AuctionBid
+			.query()
+			.where('auction_id', params.auction_id)
+			.with('auction')
+			.with('user')
+			.paging(request.all())
 
-				return response.json(auctionBid)
-		}
-	
-    async show({ response, params }) {
-	    const auctionBid = await AuctionBid.findOrFail(params.id)
-	    return response.json(auctionBid)
-    }
+		return view.render('admin.pages.auction-bid.index', {
+			bids: bids.toJSON(),
+		})
+	}
 
-    async store({ response, request, params }) {
-      const data = request.only(['name', 'price', 'description'])
+	async show({ response, params }) {
+		const auctionBid = await AuctionBid.findOrFail(params.id)
+		return response.json(auctionBid)
+	}
 
-      data.auction_id = params.auction_id
+	async store({ response, request, params }) {
+		const data = request.only(['name', 'price', 'description'])
 
-	    const auctionBid = await AuctionBid.create(data)
+		data.auction_id = params.auction_id
 
-	    return response.json(auctionBid)
-    }
+		const auctionBid = await AuctionBid.create(data)
 
-    async update({ response, params, request }) {
-	    const data = request.only(['name', 'price', 'description'])
+		return response.json(auctionBid)
+	}
 
-	    const auctionBid = await AuctionBid.findOrFail(params.id)
+	async update({ response, params, request }) {
+		const data = request.only(['name', 'price', 'description'])
 
-	    auctionBid.merge(data)
-	    await auctionBid.save()
+		const auctionBid = await AuctionBid.findOrFail(params.id)
 
-	    return response.json(auctionBid)
-    }
+		auctionBid.merge(data)
+		await auctionBid.save()
 
-    async destroy({ params }) {
-	    const auctionBid = await AuctionBid.findOrFail(params.id)
-	    await auctionBid.delete()
-    }
+		return response.json(auctionBid)
+	}
+
+	async destroy({ params }) {
+		const auctionBid = await AuctionBid.findOrFail(params.id)
+		await auctionBid.delete()
+	}
 
 }
 

@@ -1,0 +1,92 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Usuários
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Usuários') }}
+@endsection
+
+@section('toolbar')
+  <a href="{{ route('admin.user.create') }}" class="btn btn-primary">
+      <i class="fa fa-plus"></i> Novo
+  </a>
+@endsection
+
+@section('content')
+
+@if(flashMessage('success'))
+  <div class="alert alert-success">{{ flashMessage('success') }}</div>
+@endif
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Lista de Usuários ({{ users.total }})</h3>
+
+    <div class="card-tools">
+      @include('admin.pages.users._partials.filter')
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>{{ sortablelink('id', 'Id', request) }}</th>
+          <th>{{ sortablelink('name', 'Nome', request) }}</th>
+          <th>{{ sortablelink('role', 'Função', request) }}</th>
+          <th>{{ sortablelink('user_state_id', 'Status', request) }}</th>
+          <th>{{ sortablelink('approved', 'Aprovado', request) }}</th>
+          <th>{{ sortablelink('created_at', 'Cadastro', request) }}</th>
+          {{--  <th>{{ sortablelink('updated_at', 'Atualizado', request) }}</th>  --}}
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @each(user in users.data)
+          <tr data-element="{{ user.id }}">
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }} {{ user.lastname }}</td>
+            <td>
+              @each(role in user.roles)
+                <span class="badge badge-success">{{ role.name }}</span>
+              @endeach
+            </td>
+            <td>{{ user.userState.name }}</td>
+            <td>
+              @!component('admin.components.postLink', 
+                notConfirm = true,
+                id=user.id, csrfFields = csrfField(), 
+                icon = user.approved ? 'check' : 'times',
+                color = user.approved ? 'success' : 'danger',
+                type = 'POST',
+                url=route('admin.user.makeActive', { id: user.id }))
+            </td>
+            <td>{{ user.created_at }}</td>
+            {{--  <td>{{ user.updated_at }}</td>  --}}
+            <td>              
+                <a href="{{ route('admin.user.show', {id: user.id}) }}" class="btn btn-sm btn-default activeRegisterAjax d-none"
+                  data-url="{{ route('admin.user.makeActive', { id: user.id }) }}"
+                  data-id="{{ user.id }}"
+                >
+                  <i class="fa fa-eye"></i>
+               </a>
+
+                <a href="{{ route('admin.user.edit', {id: user.id}) }}" class="btn btn-sm btn-default">
+                    <i class="fa fa-edit"></i>
+                </a>
+
+                @!component('admin.components.postLink', id=user.id, csrfFields = csrfField(), url=route('admin.user.destroy', { id: user.id }))
+            </td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
+  </div>
+  <!-- /.card-body -->
+</div>
+
+  @!component('admin.components.pagination', pagination = users, request = request, presenter = 'PaginationPresenter')
+
+@endsection

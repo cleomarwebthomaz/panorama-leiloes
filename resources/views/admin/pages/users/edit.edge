@@ -1,0 +1,38 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Editar Usuário: {{ user.name }}
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Usuários', route('admin.user.index')) }}
+  {{ addCrumb('Editar') }}
+@endsection
+
+@endsection
+
+@section('content')
+
+<!-- general form elements -->
+<div class="card card-outline card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Usuários</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form role="form" action="{{ route('admin.user.update', {id: user.id}) }}?_method=PATCH" method="POST" enctype="multipart/form-data">
+      {{ csrfField() }}
+
+      <div class="card-body">
+          @include('admin.pages.users._partials.form')
+      </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Salvar</button>
+      </div>
+    </form>
+  </div>
+  <!-- /.card -->
+
+@endsection

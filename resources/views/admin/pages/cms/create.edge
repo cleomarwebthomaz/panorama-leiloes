@@ -1,0 +1,33 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Adicionar Página
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Páginas', route('admin.page.index')) }}
+  {{ addCrumb('Adicionar') }}
+@endsection
+
+@section('content')
+<div class="card card-outline card-primary">
+  <div class="card-header">
+    <h3 class="card-title">Páginas</h3>
+  </div>
+  <!-- /.card-header -->
+
+  <!-- form start -->
+  <form role="form" action="{{ route('admin.page.store') }}" method="POST" enctype="multipart/form-data">
+    {{ csrfField() }}
+
+    <div class="card-body">
+        @include('admin.pages.cms._partials.form')
+    </div>
+    <!-- /.card-body -->
+
+    <div class="card-footer">
+      <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Salvar</button>
+    </div>
+  </form>
+</div>
+@endsection

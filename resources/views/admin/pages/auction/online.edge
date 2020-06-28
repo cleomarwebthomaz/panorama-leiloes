@@ -1,0 +1,79 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Ao Vivo ( Agenda para {{ date }} )
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Ao Vivo') }}
+@endsection
+
+@section('toolbar')
+  <a href="{{ route('admin.auction.create') }}" class="btn btn-primary">
+      <i class="fa fa-plus"></i> Novo
+  </a>
+@endsection
+
+@section('content')
+
+@if(flashMessage('success'))
+  <div class="alert alert-success">{{ flashMessage('success') }}</div>
+@endif
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Selecione um registro</h3>
+
+    <div class="card-tools">
+      @include('admin.pages.auction._partials.filter')
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>{{ sortablelink('id', 'Id', request) }}</th>
+          <th>{{ sortablelink('title', 'Leilão', request) }}</th>
+          <th>{{ sortablelink('date', 'Data', request) }}</th>
+          {{--  <th>{{ sortablelink('active', 'Publicado', request) }}</th>  --}}
+          <th>{{ sortablelink('opened', 'Situação', request) }}</th>
+          {{--  <th>{{ sortablelink('created_at', 'Adicionado', request) }}</th>  --}}
+          {{--  <th>{{ sortablelink('updated_at', 'Atualizado', request) }}</th>  --}}
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="auction-bids">
+        @each(auction in auctions.data)
+        <tr>
+            <td>{{ auction.id }}</td>
+            <td>{{ auction.title }}</td>
+            <td>{{ auction.date }} {{ auction.hour }}</td>
+            <td>
+              @if(auction.opened)
+                <span class="badge badge-success">Ao Vivo</span>
+              @else
+                <span class="badge badge-danger">Encerrado</span>
+              @endif
+            </td>
+            <td>
+              @if(!auction.closed_date)
+                <a href="{{ route('admin.auction.makeOnline', { id: auction.id }) }}" class="btn btn-sm btn-success">
+                    <i class="fa fa-arrow-right"></i>
+                    Por ao Vivo
+                </a>
+              @else 
+                ---
+              @endif
+            </td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
+  </div>
+  <!-- /.card-body -->
+</div>
+
+@!component('admin.components.pagination', pagination = auctions, request = request, presenter = 'PaginationPresenter')
+
+@endsection

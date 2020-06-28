@@ -1,0 +1,26 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Produto</th>
+            <th>Anunciante</th>
+            <th>Status</th>
+            <th>Comentário</th>
+        </tr>                
+    </thead>
+    <tbody>
+        @each(avaliation in user.avaliations)
+            <tr>
+                <td>
+                    {{ avaliation.product.name }}
+                    <stars rating="{{ avaliation.vote_product }}" />
+                </td>
+                <td>
+                    {{ avaliation.product.company.name }}
+                    <stars rating="{{ avaliation.vote_company }}" />
+                </td>
+                <td>{{ avaliation.status_name }}</td>
+                <td>{{ avaliation.comment }}</td>
+            </tr>
+        @endeach                
+    </tbody>
+</table>

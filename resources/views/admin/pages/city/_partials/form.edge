@@ -1,0 +1,33 @@
+@component('admin.components.form.select', {
+  name: 'state_id',
+  label: 'Estado',
+  error: getErrorFor('state_id') || null,
+})
+  @slot('options')
+    @each((id, state) in states)
+        <option
+          @if(city.state_id === id)
+            selected="selected"
+          @endif
+          value="{{ id }}">{{ state }}</option>
+    @endeach
+  @endslot
+@endcomponent
+
+@!component('admin.components.form.control', {
+  name: 'name',
+  label: 'Nome',
+  value: city.name,
+  error: getErrorFor('name') || null,
+  autofocus: true
+})
+
+{{--  
+@!component('admin.components.form.checkbox', {
+  name: 'active',
+  id: 'active',
+  label: 'Manter Ativo',
+  checked:  state.active ? true : false,
+  error: getErrorFor('active') || null,
+  value: 1
+})  --}}

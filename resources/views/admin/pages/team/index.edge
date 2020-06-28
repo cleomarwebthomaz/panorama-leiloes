@@ -1,0 +1,68 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Equipe
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Equipe') }}
+@endsection
+
+@section('toolbar')
+    <a href="{{ route('admin.team.create') }}" class="btn btn-primary">
+        <i class="fa fa-plus"></i> Novo
+    </a>
+@endsection
+
+@section('content')
+
+@if(flashMessage('success'))
+  <div class="alert alert-success">{{ flashMessage('success') }}</div>
+@endif
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Equipe ({{ teams.total }})</h3>
+
+    <div class="card-tools">
+      @include('admin.pages.team._partials.filter')
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>{{ sortablelink('id', 'Id', request) }}</th>
+          <th>{{ sortablelink('name', 'Nome', request) }}</th>
+          {{--  <th>{{ sortablelink('active', 'Ativo', request) }}</th>  --}}
+          {{--  <th>{{ sortablelink('created_at', 'Adicionado', request) }}</th>  --}}
+          {{--  <th>{{ sortablelink('updated_at', 'Atualizado', request) }}</th>  --}}
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @each(team in teams.data)
+        <tr>
+            <td>{{ team.id }}</td>
+            <td>{{ team.name }}</td>
+            {{--  <td>{{ active(team.active) }}</td>  --}}
+            {{--  <td>{{ team.created_at }}</td>  --}}
+            {{--  <td>{{ team.updated_at }}</td>  --}}
+            <td>
+              <a href="{{ route('admin.team.edit', {id: team.id}) }}" class="btn btn-sm btn-default">
+                  <i class="fa fa-edit"></i>
+              </a>
+              @!component('admin.components.postLink', id=team.id, csrfFields = csrfField(), url=route('admin.team.destroy', { id: team.id }))
+            </td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
+  </div>
+  <!-- /.card-body -->
+</div>
+
+@!component('admin.components.pagination', pagination = teams, request = request, presenter = 'PaginationPresenter')
+
+@endsection

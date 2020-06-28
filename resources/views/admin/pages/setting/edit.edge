@@ -1,0 +1,37 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Editar Configuração: <small>{{ setting.name }}</small>
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Configurações', route('team.index')) }}
+  {{ addCrumb('Editar') }}
+@endsection
+
+@section('content')
+
+@if(flashMessage('success'))
+  <div class="alert alert-success">{{ flashMessage('success') }}</div>
+@endif
+
+<div class="card card-outline card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Configurações</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form role="form" action="{{ route('admin.setting.update', {id: setting.id}) }}?_method=PATCH" method="POST">
+      {{ csrfField() }}
+
+      <div class="card-body pad">
+          @include('admin.pages.setting._partials.form')
+      </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Atualizar</button>
+      </div>
+    </form>
+  </div>
+@endsection

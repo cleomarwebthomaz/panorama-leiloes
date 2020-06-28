@@ -1,0 +1,33 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Adicionar Estado
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Estados', route('admin.state.index')) }}
+  {{ addCrumb('Adicionar') }}
+@endsection
+
+@section('content')
+<div class="card card-outline card-primary">
+  <div class="card-header">
+    <h3 class="card-title">Estados</h3>
+  </div>
+  <!-- /.card-header -->
+
+  <!-- form start -->
+  <form role="form" action="{{ route('admin.state.store') }}" method="POST">
+    {{ csrfField() }}
+
+    <div class="card-body">
+        @include('admin.pages.state._partials.form')
+    </div>
+    <!-- /.card-body -->
+
+    <div class="card-footer">
+      <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Adicionar</button>
+    </div>
+  </form>
+</div>
+@endsection

@@ -1,8 +1,6 @@
 'use strict'
 
-const Helpers = use('Helpers')
-
-const exists = Helpers.promisify(require('fs').exists)
+const File = use('App/Services/File')
 
 const AuctionImage = use('App/Models/AuctionImage')
 
@@ -10,9 +8,9 @@ class AuctionImageController {
 
   async index({ response, request, params }) {
     const auctionImages = await AuctionImage
-                                  .query()
-                                  .where('auction_images.auction_id', params.auction_id)
-                                  .paging(request.all())
+      .query()
+      .where('auction_images.auction_id', params.auction_id)
+      .paging(request.all())
 
     return response.json(auctionImages)
   }
@@ -23,23 +21,12 @@ class AuctionImageController {
   }
 
   async store({ params, request, response }) {
-    const file = request.file('image', {
-      types: ['image'],
-      size: '2mb'
-    })
-
-    const name = `${new Date().getTime()}.${file.subtype}`
-    await file.move(Helpers.tmpPath('uploads/auction/photos'), {
-      name,
-    })
-
-    if (!file.moved()) {
-      return file.error()
-    }
+    const file = request.file('image', { types: ['image'], size: '2mb' })
+    const image = await File.upload(file, 'uploads/auction-image')
 
     const photo = await AuctionImage.create({
       auction_id: params.auction_id,
-      image: name
+      image
     })
 
     return response.json(photo)
@@ -48,23 +35,13 @@ class AuctionImageController {
   async update({ params, request, response }) {
     const photo = await AuctionImage.findOrFail(params.id)
 
-    const file = request.file('image', {
-      types: ['image'],
-      size: '2mb'
-    })
-
-    const name = `${new Date().getTime()}.${file.subtype}`
-    // const name = photo.image
-    await file.move(Helpers.tmpPath('uploads/image/photos'), {
-      name,
-      overwrite: true
-    })
-
-    if (!file.moved()) {
-      return file.error()
+    if (photo.image) {
+      File.remove(`uploads/photo-image/thumbs/${photo.image}`)
+      File.remove(`uploads/photo-image/${photo.image}`)
     }
 
-    photo.image = name
+    const file = request.file('image', { types: ['image'], size: '2mb' })
+    photo.image = await File.upload(file, 'uploads/photo-image')
 
     await photo.save()
 
@@ -72,18 +49,14 @@ class AuctionImageController {
   }
 
   async destroy({ params }) {
-    const auctionImage = await AuctionImage.findOrFail(params.id)
+    const photo = await AuctionImage.findOrFail(params.id)
 
-    // const isExist = await exists(Helpers.tmpPath(`uploads/image/photos/${auctionImage.image}`))
+    if (photo.image) {
+      File.remove(`uploads/auction-image/thumbs/${photo.image}`)
+      File.remove(`uploads/auction-image/${photo.image}`)
+    }
 
-    // return isExist
-
-    // if (isExist) {
-    //   const fs = Helpers.promisify(require('fs'))
-    //   await fs.unlink(Helpers.tmpPath(`uploads/image/photos/${auctionImage.image}`))
-    // }
-
-    await auctionImage.delete()
+    await photo.delete()
   }
 
 }

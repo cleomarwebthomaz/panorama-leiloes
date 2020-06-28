@@ -1,0 +1,36 @@
+<div class="form-group">
+    @if(label)
+	    @!component('admin.components.form.label', name=name, label=label, required=required)
+    @endif
+    
+    <h1>{{ customStyle }}</h1>
+    <select
+      name="{{ name }}"
+      class="{{ customClass ? customClass : 'select2' }} {{ className }}"
+      @if(addStyle)
+        style="{{ addStyle }}"
+      @endif
+      @if(multiple)
+        multiple="multiple"
+      @endif
+      @if(onChange)
+        onChange="{{ onChange }}"
+      @endif
+      @if(disabled)
+        disabled="{{ disabled }}"
+      @endif
+      @if(required)
+        required="required"
+      @endif
+      @if(id)
+        id="{{ id }}"
+      @endif
+      @if(target)
+        data-target="{{ target }}"
+      @endif
+      data-placeholder="{{ placeholder }}"
+      style="width: 100%;"
+    />
+      @!yield($slot.options)
+  </select>
+</div>

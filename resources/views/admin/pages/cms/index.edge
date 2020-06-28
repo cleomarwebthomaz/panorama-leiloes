@@ -1,0 +1,68 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Páginas
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Páginas') }}
+@endsection
+
+@section('toolbar')
+    <a href="{{ route('admin.page.create') }}" class="btn btn-primary">
+        <i class="fa fa-plus"></i> Novo
+    </a>
+@endsection
+
+@section('content')
+
+@if(flashMessage('success'))
+  <div class="alert alert-success">{{ flashMessage('success') }}</div>
+@endif
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Páginas ({{ pages.total }})</h3>
+
+    <div class="card-tools">
+      @include('admin.pages.cms._partials.filter')
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>{{ sortablelink('id', 'Id', request) }}</th>
+          <th>{{ sortablelink('title', 'Título', request) }}</th>
+          <th>{{ sortablelink('active', 'Ativo', request) }}</th>
+          <th>{{ sortablelink('created_at', 'Adicionado', request) }}</th>
+          <th>{{ sortablelink('updated_at', 'Atualizado', request) }}</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @each(page in pages.data)
+        <tr>
+            <td>{{ page.id }}</td>
+            <td>{{ page.title }}</td>
+            <td>{{ active(page.active) }}</td>
+            <td>{{ page.created_at }}</td>
+            <td>{{ page.updated_at }}</td>
+            <td>
+              <a href="{{ route('admin.page.edit', {id: page.id}) }}" class="btn btn-sm btn-default">
+                  <i class="fa fa-edit"></i>
+              </a>
+              {{--  @!component('admin.components.postLink', id=page.id, csrfFields = csrfField(), url=route('admin.page.destroy', { id: page.id }))  --}}
+            </td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
+  </div>
+  <!-- /.card-body -->
+</div>
+
+@!component('admin.components.pagination', pagination = pages, request = request, presenter = 'PaginationPresenter')
+
+@endsection

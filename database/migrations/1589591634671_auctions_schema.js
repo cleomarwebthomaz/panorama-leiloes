@@ -4,7 +4,7 @@
 const Schema = use('Schema')
 
 class AuctionsSchema extends Schema {
-  up () {
+  up() {
     this.create('auctions', (table) => {
       table.increments()
       table.string('title').notNullable()
@@ -12,13 +12,14 @@ class AuctionsSchema extends Schema {
       table.text('content')
       table.decimal('bid_initial').defaultTo(0)
       table.string('date')
+      table.string('image', 100)
       table.boolean('opened').defaultTo(0)
       table.boolean('active').defaultTo(0)
       table.timestamps()
     })
   }
 
-  down () {
+  down() {
     this.drop('auctions')
   }
 }

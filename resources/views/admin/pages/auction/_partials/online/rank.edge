@@ -1,0 +1,36 @@
+<table class="table table-hover table-head-fixed" id="bid-rank">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Cliente</th>
+      <th>Telefone</th>
+      <th>Cidade</th>
+      <th>Lance</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    @each(rank in ranks)
+    <tr data-element="{{ rank.id }}">
+        <td>{{ rank.id }}</td>
+        <td>{{ rank.user.name }} {{ rank.user.lastname }}</td>
+        <td>{{ rank.user.phone }}</td>
+        <td>{{ rank.user.city.name }} {{ rank.user.city.state.uf }}</td>
+        <td><strong>{{ currency(rank.total) }}</strong></td>
+        <td>
+          @if(!auction.winner_id)
+          <a 
+            href="{{ route('admin.auction.makeFinish', { id: auction.id }) }}?winner_id={{ rank.user_id }}" 
+            class="btn btn-sm btn-default"
+            onclick="if (!confirm('O leilão será encerrado e o cliente selecionado será o vencedor. Não é possível reverter.')) return false;"
+          >
+            <i class="fa fa-check"></i> Arrematar
+          </a>  
+          @else
+            --          
+          @endif
+        </td>
+    </tr>
+    @endeach
+  </tbody>
+</table>

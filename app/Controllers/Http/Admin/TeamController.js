@@ -5,13 +5,15 @@ const { validateAll } = use('Validator')
 
 class TeamController {
 
-  async index({ response, request }) {
+  async index({ request, view }) {
     const teams = await Team
-                          .query()
-                          .filter(request.all())
-                          .paging(request.all())
+      .query()
+      .filter(request.all())
+      .paging(request.all())
 
-    return response.json(teams)
+    return view.render('admin.pages.team.index', {
+      teams: teams.toJSON(),
+    })
   }
 
   async show({ response, params }) {
@@ -19,7 +21,11 @@ class TeamController {
     return response.json(team)
   }
 
-  async store({ response, request }) {
+  create({ view }) {
+    return view.render('admin.pages.team.create')
+  }
+
+  async store({ response, request, session }) {
     const rules = {
       name: 'required'
     }
@@ -35,10 +41,19 @@ class TeamController {
 
     const team = await Team.create(data)
 
-    return response.json({ success: true, data: team })
+    session.flash({ success: 'Salvo com sucesso' })
+    return response.route('admin.team.index')
   }
 
-  async update({ response, params, request }) {
+  async edit({ view, params }) {
+    const team = await Team.findOrFail(params.id)
+
+    return view.render('admin.pages.team.edit', {
+      team: team.toJSON(),
+    })
+  }
+
+  async update({ response, params, request, session }) {
     const data = request.only(['label', 'name', 'description', 'observation', 'active'])
     data.active = !!data.active
 
@@ -47,12 +62,15 @@ class TeamController {
     team.merge(data)
     await team.save()
 
-    return response.json(team)
+    session.flash({ success: 'Salvo com sucesso' })
+    return response.route('admin.team.index')
   }
 
-  async destroy({ params }) {
+  async destroy({ params, session, response }) {
     const team = await Team.findOrFail(params.id)
     await team.delete()
+    session.flash({ success: 'Página excluida com sucesso' })
+    return response.redirect('back')
   }
 
 }

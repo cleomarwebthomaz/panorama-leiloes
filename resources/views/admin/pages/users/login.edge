@@ -1,0 +1,66 @@
+@layout('admin.auth')
+
+@section('content')
+<!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Entre para iniciar sua sessão</p>
+
+      <form action="{{ route('login.store') }}" method="post">
+      	{{ csrfField() }}
+
+		@!component('components.form.inputGroup', { 
+		  name: 'email', 
+		  type: 'email',
+		  placeholder: 'E-mail',
+		  value: old('email'),
+		  error: getErrorFor('email') || null,
+		  autofocus: true,
+		  icon: 'envelope',
+		  divClass: 'mb-3'
+		})
+
+		@!component('components.form.inputGroup', { 
+		  name: 'password', 
+		  type: 'password',
+		  placeholder: 'Senha',
+		  value: old('password'),
+		  error: getErrorFor('password') || null,
+		  icon: 'lock',
+		  divClass: 'mb-3'
+		})
+
+		<div class="row">
+			<div class="col-sm-8">
+				@!component('components.form.checkbox', { 
+				  name: 'remember', 
+				  error: getErrorFor('checkbox') || null,
+				  label: 'Lembre de mim'
+				})				
+			</div>
+	        <div class="col-4">
+	            <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+	        </div>			
+		</div>
+      </form>
+
+      <div class="social-auth-links text-center mb-3">
+        <p>- OU -</p>
+        <a href="#" class="btn btn-block btn-primary">
+          <i class="fab fa-facebook mr-2"></i> Entre usando o Facebook
+        </a>
+        <a href="#" class="btn btn-block btn-danger">
+          <i class="fab fa-google-plus mr-2"></i> Faça login usando o Google+
+        </a>
+      </div>
+      <!-- /.social-auth-links -->
+
+      <p class="mb-1">
+        <a href="#">Esqueci a minha senha</a>
+      </p>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+@endsection

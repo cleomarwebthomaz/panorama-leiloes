@@ -1,0 +1,15 @@
+@!component('admin.components.form.control', {
+  name: 'name',
+  label: 'Nome',
+  value: setting.name,
+  error: getErrorFor('name') || null,
+  autofocus: true
+})
+
+@!component('admin.components.form.textarea', {
+  name: 'value',
+  label: 'Valor',
+  value: setting.value,
+  error: getErrorFor('value') || null,
+  autofocus: true
+})

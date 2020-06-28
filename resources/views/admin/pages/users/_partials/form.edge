@@ -1,0 +1,178 @@
+
+<div class="row">
+  <div class="col-sm-6">
+    @!component('admin.components.form.control', {
+      name: 'name',
+      value:  user.name,
+      error: getErrorFor('name') || null,
+      autofocus: true,
+      label: 'Nome',
+      required: true
+    })
+  </div>
+  <div class="col-sm-6">
+    @!component('admin.components.form.control', {
+      name: 'lastname',
+      value:  user.lastname,
+      error: getErrorFor('lastname') || null,
+      autofocus: true,
+      label: 'Sobrenome',
+      required: true
+    })    
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    @!component('admin.components.form.inputGroup', {
+      name: 'email',
+      value:  user.email,
+      error: getErrorFor('email') || null,
+      autofocus: true,
+      label: 'E-mail',
+      icon: 'fas fa-envelope',
+      required: true
+    })
+  </div>
+  <div class="col-sm-6">
+    @!component('admin.components.form.inputGroup', {
+      name: 'phone',
+      value:  user.phone,
+      error: getErrorFor('phone') || null,
+      autofocus: true,
+      label: 'Celular',
+      icon: 'fas fa-phone',
+      usemask: 'phone',
+      required: true
+    })    
+  </div>
+</div>
+
+<div class="row form-person-type" data-select="#person_type" data-label="#document_label">
+  <div class="col-sm-4">
+      @component('admin.components.form.select', {
+        name: 'person_type',
+        value:  user.person_type,
+        error: getErrorFor('person_type') || null,
+        label: 'Tipo de Cliente',
+        id: 'person_type',
+        required: true
+      })
+        @slot('options')
+            <option value="individual">Pessoa Fisíca</option>
+            <option value="legal">Pessoa Juridíca</option>
+        @endslot
+      @endcomponent
+  </div>
+  <div class="col-sm-8">
+      @!component('admin.components.form.control', {
+        name: 'document',
+        value:  user.document,
+        error: getErrorFor('document') || null,
+        label: 'CPF',
+        usemask: 'cpf',
+        labelId: 'document_label',
+        id: 'input_person_type_document',
+        required: true
+      })
+  </div>
+</div>
+
+<div class="row select-city">
+  <div class="col-sm-4">
+      @component('admin.components.form.select', {
+        name: 'state_id',
+        label: 'Estado',
+        error: getErrorFor('state_id') || null,
+        required: true,
+      })
+        @slot('options')
+          @each((id, state) in states)
+              <option
+                @if(user.state_id === id)
+                  selected="selected"
+                @endif
+                value="{{ id }}">{{ state }}</option>
+          @endeach
+        @endslot
+      @endcomponent
+  </div>
+  <div class="col-sm-8">
+    @component('admin.components.form.select', {
+      name: 'city_id',
+      label: 'Cidade',
+      error: getErrorFor('city_id') || null,
+      required: true
+    })
+      @slot('options')
+        @each((id, city) in cities)
+            <option
+              @if(user.city_id === id)
+                selected="selected"
+              @endif
+              value="{{ id }}">{{ city }}</option>
+        @endeach
+      @endslot
+    @endcomponent
+  </div>
+</div>
+
+@!component('admin.components.form.inputGroup', {
+  name: 'password',
+  type: 'text',
+  value: '',
+  error: getErrorFor('password') || null,
+  label: 'Senha',
+  icon: 'fas fa-lock',
+  help: user.id ? 'Deixo em branco para manter a senha atual' : ''
+})
+
+@component('admin.components.form.select', {
+  name: 'roles[]',
+  type: 'roles',
+  error: getErrorFor('roles') || null,
+  label: 'Permissões',
+  placeholder: 'Selecione as permissões de acesso',
+  multiple: true,
+  required: true
+})
+  @slot('options')
+    @each((id, role) in roles)
+      <option
+        value="{{ id }}"
+        @if(role_ids.includes(id))
+          selected="selected"
+        @endif
+      >
+        {{ role }}
+      </option>
+    @endeach
+  @endslot
+@endcomponent
+
+<div class="d-none">
+@component('admin.components.form.select', {
+  name: 'user_state_id',
+  label: 'Status',
+  error: getErrorFor('user_state_id') || null,
+})
+  @slot('options')
+    @each((id, state) in userStates)
+        <option
+          @if(user.user_state_id === id)
+            selected="selected"
+          @endif
+          value="{{ id }}">{{ state }}</option>
+    @endeach
+  @endslot
+@endcomponent
+</div>
+
+@!component('admin.components.form.checkbox', {
+  name: 'approved',
+  id: 'approved',
+  label: 'Cliente pode dar Lances',
+  checked:  user.approved ? true : false,
+  error: getErrorFor('approved') || null,
+  value: 1
+})

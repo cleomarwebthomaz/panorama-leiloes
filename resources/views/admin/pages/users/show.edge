@@ -1,0 +1,108 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Informações do Usuário: {{ user.name }}
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Usuários', route('admin.user.index')) }}
+  {{ addCrumb('Detalhes') }}
+@endsection
+
+@section('content')
+<div class="row">
+    <div class="col-md-4 col-lg-3">
+        <div class="card card-primary card-outline">
+            <div class="card-body box-profile">
+                <h3 class="profile-username">{{ user.name }}</h3>
+                <p class="text-muted">{{ user.created_at }}</p>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item">
+                        <b>Total Gastos</b> <a class="float-right">{{ currency(user.total_orders) }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Compras</b> <a class="float-right">{{ user.__meta__.orders_count }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Vouchers</b> <a class="float-right">{{ user.__meta__.vouchers_count }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Avaliações</b> <a class="float-right">{{ user.__meta__.avaliations_count }}</a>
+                    </li>
+                </ul>
+
+                <a href="{{ route('admin.user.edit', { id: user.id }) }}" class="btn btn-primary btn-block">
+                        <i class="fas fa-edit"></i> <b>Editar</b>
+                </a>                
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+        <!-- About Me Box -->
+        <div class="card card-primary">
+            <div class="card-header">
+            <h3 class="card-title">Sobre</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+            <strong><i class="fas fa-map-marker-alt mr-1"></i> Endereço</strong>
+
+            @if(user.address)
+                <p class="text-muted">{{ user.address.city.name }} - {{ user.address.city.state.name }}
+                    {{ user.address.street }}, {{ user.address.number }}</br>
+                    {{ user.address.neighborhood }}</br>
+                    {{ user.address.cep }}
+                </p>
+            @else
+                <div class="alert alert-danger">
+                    <strong>Endereço não Cadastrado</strong>
+                </div>
+            @endif
+
+            <p class="text-muted">
+                <i class="fas fa-phone"></i> ({{ user.phone_ddd }}) {{ user.phone }}
+            </p>
+            <p class="text-muted">
+                <i class="fas fa-envelope"></i> {{ user.email }}
+            </p>
+
+            <hr />
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-8 col-lg-9">
+    <div class="card">
+        <div class="card-header p-2">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" href="#orders" data-toggle="tab">Compras</a></li>
+                <li class="nav-item"><a class="nav-link" href="#avaliations" data-toggle="tab">Avaliações</a></li>
+                <li class="nav-item"><a class="nav-link" href="#vouchers" data-toggle="tab">Vouchers</a></li>
+            </ul>
+        </div><!-- /.card-header -->
+
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="active tab-pane" id="orders">
+                    @include('admin.users._partials.details.orders')
+                </div> <!-- orders -->
+                <div class="tab-pane" id="avaliations">
+                    @include('admin.users._partials.details.avaliations')
+                </div> <!-- avaliations -->
+                <div class="tab-pane" id="vouchers">
+                    @include('admin.users._partials.details.vouchers')
+                </div> <!-- vouchers -->
+            </div>
+            <!-- /.tab-content -->
+        </div><!-- /.card-body -->
+    </div>
+    <!-- /.nav-tabs-custom -->
+    </div>
+    <!-- /.col -->
+</div>
+@endsection

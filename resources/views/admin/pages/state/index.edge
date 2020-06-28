@@ -1,0 +1,70 @@
+@layout('admin.layouts.master')
+
+@section('title')
+  Estados
+@endsection
+
+@section('breadcrumb')
+  {{ addCrumb('Estados') }}
+@endsection
+
+@section('toolbar')
+    <a href="{{ route('admin.state.create') }}" class="btn btn-primary">
+        <i class="fa fa-plus"></i> Novo
+    </a>
+@endsection
+
+@section('content')
+
+@if(flashMessage('success'))
+  <div class="alert alert-success">{{ flashMessage('success') }}</div>
+@endif
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Estados ({{ states.total }})</h3>
+
+    <div class="card-tools">
+      @include('admin.pages.state._partials.filter')
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body table-responsive p-0">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>{{ sortablelink('id', 'Id', request) }}</th>
+          <th>{{ sortablelink('uf', 'UF', request) }}</th>
+          <th>{{ sortablelink('name', 'Nome', request) }}</th>
+          {{--  <th>{{ sortablelink('active', 'Ativo', request) }}</th>  --}}
+          {{--  <th>{{ sortablelink('created_at', 'Adicionado', request) }}</th>  --}}
+          {{--  <th>{{ sortablelink('updated_at', 'Atualizado', request) }}</th>  --}}
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @each(state in states.data)
+        <tr>
+            <td>{{ state.id }}</td>
+            <td>{{ state.uf }}</td>
+            <td>{{ state.name }}</td>
+            {{--  <td>{{ active(state.active) }}</td>  --}}
+            {{--  <td>{{ state.created_at }}</td>  --}}
+            {{--  <td>{{ state.updated_at }}</td>  --}}
+            <td>
+              <a href="{{ route('admin.state.edit', {id: state.id}) }}" class="btn btn-sm btn-default">
+                  <i class="fa fa-edit"></i>
+              </a>
+              @!component('admin.components.postLink', id=state.id, csrfFields = csrfField(), url=route('admin.state.destroy', { id: state.id }))
+            </td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
+  </div>
+  <!-- /.card-body -->
+</div>
+
+@!component('admin.components.pagination', pagination = states, request = request, presenter = 'PaginationPresenter')
+
+@endsection

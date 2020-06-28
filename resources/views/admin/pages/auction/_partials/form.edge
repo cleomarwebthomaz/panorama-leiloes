@@ -1,0 +1,21 @@
+<ul class="nav nav-tabs tabs-link" id="custom-content-below-tab" role="tablist">
+  <li class="nav-item">
+      <a class="nav-link active" id="tab-information-tab" data-toggle="pill" href="#tab-information" role="tab">
+        Informações
+      </a>
+  </li>
+  <li class="nav-item">
+      <a class="nav-link{{ !auction.id ? ' disabled' : '' }}" id="tab-photo-tab" data-toggle="pill" href="#tab-photo" role="tab">
+        Fotos
+      </a>
+  </li>
+</ul>
+
+<div class="tab-content" id="custom-content-below-tabContent">
+  <div class="tab-pane fade show active pt-3" id="tab-information" role="tabpanel">
+    @include('admin.pages.auction._partials.tabs.informations')
+  </div>
+  <div class="tab-pane fade pt-3" id="tab-photo" role="tabpanel">
+    @include('admin.pages.auction._partials.tabs.photos')
+  </div>
+</div>

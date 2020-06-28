@@ -12,10 +12,10 @@ class AdminSettingFilter extends ModelFilter {
     return this.where('name', 'LIKE', `%${value}%`)
   }
 
-  search(value) {
-    return this.where(function () {
-      this.where('name', 'LIKE', `%${value}%`)
-        .orWhere('slug', 'LIKE', `%${value}%`)
+  search(search) {
+    this.where(function () {
+      this.where('settings.id', 'LIKE', `%${search}%`)
+        .orWhere('settings.name', 'LIKE', `%${search}%`)
     })
   }
 

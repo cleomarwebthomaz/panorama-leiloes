@@ -8,8 +8,11 @@ class PageFilter extends ModelFilter {
     return this.where('id', Number(id))
   }
 
-  search(value) {
-    return this.where('title', 'LIKE', `%${value}%`)
+  search(search) {
+    this.where(function () {
+      this.where('pages.id', 'LIKE', `%${search}%`)
+        .orWhere('pages.title', 'LIKE', `%${search}%`)
+    })
   }
 
 }

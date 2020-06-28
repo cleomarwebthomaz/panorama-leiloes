@@ -1,0 +1,18 @@
+<div class="form-group">
+    @if(label)
+        <label for="{{ name }}"></label>
+    @endif
+    <input 
+        type="{{ type || 'text'"
+        if (placeholder) {
+            placeholder="{{ placeholder }}"
+        }
+        if (id) {
+            id="{{ id }}"
+        }
+        class="form-control {{ class ? class : '' }}"
+        if (required) {
+            required="{{ required }}"
+        }
+     />
+</div>

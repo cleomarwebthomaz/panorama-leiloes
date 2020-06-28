@@ -1,0 +1,24 @@
+<div class="card-body table-responsive p-0" style="max-height: 500px;" id="bids-online">
+  <table class="table table-hover table-head-fixed">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Cliente</th>
+        <th>Telefone</th>
+        <th>Cidade</th>
+        <th>Lance</th>
+      </tr>
+    </thead>
+    <tbody>
+      @each(bid in auction.bids)
+      <tr data-element="{{ auction.id }}">
+        <td>{{ bid.id }}</td>
+        <td>{{ bid.user.name }} {{ bid.user.lastname }}</td>
+        <td>{{ bid.user.phone }}</td>
+        <td>{{ bid.user.city.name }} {{ bid.user.city.state.uf }}</td>
+        <td><strong>{{ currency(bid.price) }}</strong></td>
+      </tr>
+      @endeach
+    </tbody>
+  </table>
+</div>
