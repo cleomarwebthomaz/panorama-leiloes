@@ -37,6 +37,7 @@
           <th>{{ sortablelink('name', 'Nome', request) }}</th>
           <th>{{ sortablelink('role', 'Função', request) }}</th>
           <th>{{ sortablelink('user_state_id', 'Status', request) }}</th>
+          <th>{{ sortablelink('requested', 'Solicitado', request) }}</th>
           <th>{{ sortablelink('approved', 'Aprovado', request) }}</th>
           <th>{{ sortablelink('created_at', 'Cadastro', request) }}</th>
           {{--  <th>{{ sortablelink('updated_at', 'Atualizado', request) }}</th>  --}}
@@ -54,6 +55,7 @@
               @endeach
             </td>
             <td>{{ user.userState.name }}</td>
+            <td>{{ active(user.active) }}</td>
             <td>
               @!component('admin.components.postLink', 
                 notConfirm = true,

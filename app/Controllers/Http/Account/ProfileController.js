@@ -6,6 +6,11 @@ class ProfileController {
     return response.json(auth.user)
   }
 
+  async request({ auth }) {
+    auth.user.requested = true
+    await auth.user.save()
+  }
+
   async store({ response, request, auth }) {
     const rules = {
       state_id: 'required',

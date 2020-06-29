@@ -38,8 +38,6 @@
           <th>{{ sortablelink('active', 'Ativo', request) }}</th>
           <th>{{ sortablelink('date', 'Data', request) }}</th>
           <th>{{ sortablelink('date', 'Encerramento', request) }}</th>
-          {{--  <th>{{ sortablelink('created_at', 'Adicionado', request) }}</th>  --}}
-          {{--  <th>{{ sortablelink('updated_at', 'Atualizado', request) }}</th>  --}}
           <th>Ações</th>
         </tr>
       </thead>
@@ -51,15 +49,7 @@
             <td>{{ active(auction.active) }}</td>
             <td>{{ auction.date_formated }}</td>
             <td>{{ auction.closed_date_formated || '--' }}</td>
-            {{--  <td>{{ auction.updated_at }}</td>  --}}
             <td>
-              <a href="{{ route('admin.auction.show', { id: auction.id }) }}" class="btn btn-sm btn-default">
-                <i class="fa fa-eye"></i> Detalhes
-              </a>
-              <a href="{{ route('admin.auction.edit', {id: auction.id}) }}" class="btn btn-sm btn-default">
-                  <i class="fa fa-edit"></i>
-              </a>
-              @!component('admin.components.postLink', id=auction.id, csrfFields = csrfField(), url=route('admin.auction.destroy', { id: auction.id }))
             </td>
         </tr>
         @endeach

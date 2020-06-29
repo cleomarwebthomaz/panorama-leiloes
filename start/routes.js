@@ -81,30 +81,6 @@ Route.group(() => {
   .namespace('Admin/Auth')
   .as('admin')
 
-// Route.group(() => {
-//   Route.resource('role', 'RoleController').validator('Role')
-//   Route.resource('user.address', 'UserAddressController')
-//   Route.resource('user-state', 'UserStateController')
-//   Route.resource('user.contact', 'UserContactController')
-//   Route.resource('contact-type', 'ContactTypeController')
-
-//   Route.resource('state', 'StateController')
-//   Route.resource('state.city', 'StateCityController')
-//   Route.resource('city', 'CityController')
-//   Route.resource('setting', 'SettingController')
-
-//   Route.resource('category', 'CategoryController')
-//   Route.resource('team', 'TeamController')
-//   Route.resource('page', 'PageController')
-//   Route.resource('schedule', 'ScheduleController')
-
-//   Route.resource('auction', 'AuctionController')
-//   Route.resource('auction.image', 'AuctionImageController')
-//   Route.resource('auction.bid', 'AuctionBidController')
-// })
-//   .namespace('Admin')
-//   .prefix('admin/api/v1')
-
 Route.group(() => {
   Route.post('login', 'Auth/LoginController.store')
 })
@@ -133,6 +109,7 @@ Route.group(() => {
   Route.post('change-password', 'Auth/ForgotPasswordController.changePasword')
 
   // Auth
+  Route.post('request', 'Account/ProfileController.request').middleware(['auth:jwt'])
   Route.post('profile/change-password', 'Account/ProfileController.changePassword').middleware(['auth:jwt'])
   Route.resource('profile', 'Account/ProfileController').middleware(['auth:jwt'])
 })
